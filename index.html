@@ -275,8 +275,8 @@
 
         .wheel-wrapper {
             position: relative;
-            width: min(340px, 86vw);
-            height: min(340px, 86vw);
+            width: min(420px, 92vw);
+    height: min(420px, 92vw);
             margin: 0 auto 18px;
         }
 
@@ -1332,223 +1332,199 @@
         document.querySelectorAll('.placeholder-loader').forEach(img => imgObs.observe(img));
     </script>
 
-    <script>
-        (function () {
-            // Reuse the same localStorage key pattern used by assets/js/player.js
-            const ALREADY_DISPLAYED_KEY = 'alreadyElsDisplayed1650';
+   <script>
+(function () {
 
-            // ── Reveal hidden elements (kits/offers/etc.) ──
-            function triggerShowHiddenElements() {
-                document.querySelectorAll('.esconder').forEach(e => e.classList.remove('esconder'));
-                localStorage.setItem(ALREADY_DISPLAYED_KEY, 'true');
-                window.dispatchEvent(new CustomEvent('showHiddenElements'));
-            }
+    // ─────────────────────────────────────────
+    // STORAGE CONTROL
+    // ─────────────────────────────────────────
 
-            // If already unlocked, skip roulette and show offers
-            if (localStorage.getItem(ALREADY_DISPLAYED_KEY) === 'true') {
-                const roulette = document.getElementById('rouletteSection');
-                if (roulette) roulette.style.display = 'none';
-                triggerShowHiddenElements();
-                return;
-            }
+    (function () {
 
-            // ── Wheel config ─────────────────────────────────────
-            const SEGMENTS = [
-                { label: '5% OFF\nno kit de 9', color: '#1e3a8a', textColor: '#ffffff', subTextColor: 'rgba(255,255,255,0.72)' },
-                { label: '+1 SACHÊ\nTODOS OS KITS', color: '#facc15', textColor: '#0a1628', subTextColor: 'rgba(10,22,40,0.78)' }, // WINNER
-                { label: '5% OFF\nno kit de 4', color: '#2563eb', textColor: '#ffffff', subTextColor: 'rgba(255,255,255,0.72)' },
-                { label: 'FRETE Grátis\nno kit de 1', color: '#1d4ed8', textColor: '#ffffff', subTextColor: 'rgba(255,255,255,0.72)' },
+    function triggerShowHiddenElements() {
+        document.querySelectorAll('.esconder').forEach(e => e.classList.remove('esconder'));
+    }
 
-            ];
+    // deixa global
+    window.triggerShowHiddenElements = triggerShowHiddenElements;
 
-            const WINNER_INDEX = 1;
+    // 🔥 GARANTE RESET AO RECARREGAR
+    window.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('#kits').forEach(e => e.classList.add('esconder'));
+    });
 
-            const canvas = document.getElementById('rouletteCanvas');
-            const ctx = canvas?.getContext('2d');
-            if (!canvas || !ctx) return;
+})();
 
-            function setCanvasSize() {
-const size = Math.min(420, window.innerWidth * 0.95);                canvas.width = size;
-                canvas.height = size;
-            }
-            setCanvasSize();
 
-            const NUM = SEGMENTS.length;
-            const ARC = (2 * Math.PI) / NUM;
-            let currentAngle = -Math.PI / 2;
-            let isSpinning = false;
-            let alreadySpun = false;
 
-            function drawWheel(rotation) {
-                const cx = canvas.width / 2;
-                const cy = canvas.height / 2;
-                const R = cx - 4;
+    // ─────────────────────────────────────────
+    // CANVAS SETUP
+    // ─────────────────────────────────────────
+    const canvas = document.getElementById('rouletteCanvas');
+    const ctx = canvas?.getContext('2d');
 
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (!canvas || !ctx) return;
 
-                ctx.beginPath();
-                ctx.arc(cx, cy, R + 3, 0, 2 * Math.PI);
-                ctx.strokeStyle = 'rgba(255,255,255,0.15)';
-                ctx.lineWidth = 6;
-                ctx.stroke();
+    function setCanvasSize() {
+        const size = Math.min(520, window.innerWidth * 0.92);
+        canvas.width = size;
+        canvas.height = size;
+    }
 
-                SEGMENTS.forEach((seg, i) => {
-                    const startAngle = rotation + i * ARC;
-                    const endAngle = startAngle + ARC;
-                    const midAngle = startAngle + ARC / 2;
+    setCanvasSize();
 
-                    ctx.beginPath();
-                    ctx.moveTo(cx, cy);
-                    ctx.arc(cx, cy, R, startAngle, endAngle);
-                    ctx.closePath();
-                    ctx.fillStyle = seg.color;
-                    ctx.fill();
-                    ctx.strokeStyle = 'rgba(0,0,0,0.25)';
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
+    // ─────────────────────────────────────────
+    // SEGMENTS
+    // ─────────────────────────────────────────
+    const SEGMENTS = [
+        { label: '5% OFF\nno kit de 9', color: '#1e3a8a', textColor: '#fff' },
+        { label: '+1 SACHÊ\nTODOS OS KITS', color: '#facc15', textColor: '#0a1628' },
+        { label: '5% OFF\nno kit de 4', color: '#2563eb', textColor: '#fff' },
+        { label: 'FRETE Grátis\nno kit de 1', color: '#1d4ed8', textColor: '#fff' },
+    ];
 
-                    ctx.save();
-                    ctx.translate(cx, cy);
-                    ctx.rotate(midAngle);
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
+    const WINNER_INDEX = 1;
 
-                    const lines = seg.label.split('\n');
-const fontSize = Math.max(12, canvas.width * 0.045);
-const textR = R * 0.72;                   if (lines.length === 2) {
-    ctx.fillStyle = seg.subTextColor || seg.textColor;
-    ctx.font = `700 ${fontSize * 0.85}px Inter, sans-serif`;
-    ctx.fillText(lines[0], textR, -fontSize * 0.30);
+    const NUM = SEGMENTS.length;
+    const ARC = (2 * Math.PI) / NUM;
 
-    ctx.fillStyle = seg.textColor;
-    ctx.font = `900 ${fontSize * 1.1}px Bebas Neue, Inter, sans-serif`;
-    ctx.fillText(lines[1], textR, fontSize * 0.75);
-} else {
-                        ctx.fillStyle = seg.textColor;
-                        ctx.font = `900 ${fontSize}px Inter, sans-serif`;
-                        ctx.fillText(lines[0], textR, fontSize * 0.35);
-                    }
-                    ctx.restore();
-                });
+    let currentAngle = -Math.PI / 2;
+    let isSpinning = false;
+    let alreadySpun = false;
 
-                ctx.beginPath();
-                ctx.arc(cx, cy, canvas.width * 0.115, 0, 2 * Math.PI);
-                ctx.fillStyle = '#0a1628';
-                ctx.fill();
-                ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-                ctx.lineWidth = 3;
-                ctx.stroke();
-            }
+    // ─────────────────────────────────────────
+    // DRAW
+    // ─────────────────────────────────────────
+    function drawWheel(rotation) {
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+        const R = cx - 4;
 
-            drawWheel(currentAngle);
-            window.addEventListener('resize', () => { setCanvasSize(); drawWheel(currentAngle); });
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // ── Spin logic ───────────────────────────────────────
-            function spin() {
-                if (isSpinning || alreadySpun) return;
-                isSpinning = true;
-                alreadySpun = true;
+        SEGMENTS.forEach((seg, i) => {
+            const start = rotation + i * ARC;
+            const end = start + ARC;
 
-                const mainBtn = document.getElementById('mainSpinBtn');
-                const centerBtn = document.getElementById('centerSpinBtn');
-                if (mainBtn) mainBtn.disabled = true;
-                if (centerBtn) centerBtn.disabled = true;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.arc(cx, cy, R, start, end);
+            ctx.closePath();
 
-                const targetBaseAngle = -Math.PI / 2 - WINNER_INDEX * ARC - ARC / 2;
-                const extraSpins = (5 + Math.floor(Math.random() * 3)) * 2 * Math.PI;
-                const targetAngle = targetBaseAngle - extraSpins;
+            ctx.fillStyle = seg.color;
+            ctx.fill();
 
-                const duration = 5000;
-                const startAngle = currentAngle;
-                const startTime = performance.now();
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(start + ARC / 2);
 
-                function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+            ctx.fillStyle = seg.textColor;
+            ctx.font = `bold ${canvas.width * 0.045}px Inter`;
+            ctx.textAlign = 'center';
 
-                function animate(now) {
-                    const elapsed = now - startTime;
-                    const t = Math.min(elapsed / duration, 1);
-                    const eased = easeOut(t);
-
-                    currentAngle = startAngle + (targetAngle - startAngle) * eased;
-                    drawWheel(currentAngle);
-
-                    if (t < 1) requestAnimationFrame(animate);
-                    else {
-                        currentAngle = targetAngle;
-                        drawWheel(currentAngle);
-                        isSpinning = false;
-                        onSpinEnd();
-                    }
-                }
-
-                requestAnimationFrame(animate);
-            }
-
-            function onSpinEnd() {
-                launchConfetti();
-setTimeout(() => {                    document.getElementById('winOverlay')?.classList.add('active');
-                    startWinTimer();
-                }, 600);
-            }
-
-            // ── Confetti ─────────────────────────────────────────
-            function launchConfetti() {
-                const colors = ['#facc15', '#2563eb', '#16a34a', '#ef4444', '#a855f7', '#f97316', '#ffffff'];
-                for (let i = 0; i < 80; i++) {
-                    const el = document.createElement('div');
-                    el.className = 'confetti-particle';
-                    el.style.cssText = `
-                        left: ${Math.random() * 100}vw;
-                        top: -10px;
-                        background: ${colors[Math.floor(Math.random() * colors.length)]};
-                        width: ${6 + Math.random() * 8}px;
-                        height: ${6 + Math.random() * 8}px;
-                        border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
-                        animation-duration: ${2 + Math.random() * 2.5}s;
-                        animation-delay: ${Math.random() * 0.8}s;
-                    `;
-                    document.body.appendChild(el);
-                    setTimeout(() => el.remove(), 5000);
-                }
-            }
-
-            // ── Win timer (15 min) ───────────────────────────────
-            let winTimerInterval;
-            function startWinTimer() {
-                const SECS = 15 * 60;
-                let remaining = SECS;
-                const el = document.getElementById('winTimer');
-                if (!el) return;
-
-                function update() {
-                    if (remaining <= 0) {
-                        clearInterval(winTimerInterval);
-                        el.textContent = '00:00';
-                        return;
-                    }
-                    const m = Math.floor(remaining / 60);
-                    const s = remaining % 60;
-                    el.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-                    remaining--;
-                }
-
-                update();
-                winTimerInterval = setInterval(update, 1000);
-            }
-
-            // ── CTA inside modal → reveal offers and scroll ──────
-            document.getElementById('winCtaBtn')?.addEventListener('click', () => {
-                document.getElementById('winOverlay')?.classList.remove('active');
-                triggerShowHiddenElements();
-                setTimeout(() => {
-                    document.getElementById('kits')?.scrollIntoView({ behavior: 'smooth' });
-                }, 300);
+            const lines = seg.label.split('\n');
+            lines.forEach((line, index) => {
+                ctx.fillText(line, R * 0.6, index * 18);
             });
 
-            // ── Buttons ──────────────────────────────────────────
-            document.getElementById('mainSpinBtn')?.addEventListener('click', spin);
-            document.getElementById('centerSpinBtn')?.addEventListener('click', spin);
-        })();
-    </script>
+            ctx.restore();
+        });
+    }
+
+    drawWheel(currentAngle);
+
+    // ─────────────────────────────────────────
+    // SPIN
+    // ─────────────────────────────────────────
+    function spin() {
+        if (isSpinning || alreadySpun) return;
+
+        isSpinning = true;
+        alreadySpun = true;
+
+        const target =
+            -Math.PI / 2 -
+            WINNER_INDEX * ARC -
+            ARC / 2 -
+            (6 * 2 * Math.PI);
+
+        const start = currentAngle;
+        const duration = 5000;
+        const startTime = performance.now();
+
+        function animate(now) {
+            const t = Math.min((now - startTime) / duration, 1);
+            const ease = 1 - Math.pow(1 - t, 3);
+
+            currentAngle = start + (target - start) * ease;
+            drawWheel(currentAngle);
+
+            if (t < 1) requestAnimationFrame(animate);
+            else {
+                isSpinning = false;
+                onSpinEnd();
+            }
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    // ─────────────────────────────────────────
+    // FINAL
+    // ─────────────────────────────────────────
+    function onSpinEnd() {
+        setTimeout(() => {
+            document.getElementById('winOverlay')?.classList.add('active');
+            triggerShowHiddenElements();
+            startWinTimer();
+        }, 500);
+    }
+
+    // ─────────────────────────────────────────
+    // TIMER
+    // ─────────────────────────────────────────
+    function startWinTimer() {
+        let time = 900;
+        const el = document.getElementById('winTimer');
+
+        const interval = setInterval(() => {
+            const m = Math.floor(time / 60);
+            const s = time % 60;
+
+            el.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+
+            if (time-- <= 0) clearInterval(interval);
+        }, 1000);
+    }
+
+    // ─────────────────────────────────────────
+    // BOTÕES
+    // ─────────────────────────────────────────
+    document.getElementById('mainSpinBtn')?.addEventListener('click', spin);
+    document.getElementById('centerSpinBtn')?.addEventListener('click', spin);
+
+    // ─────────────────────────────────────────
+    // FECHAR POPUP (ESSENCIAL)
+    // ─────────────────────────────────────────
+    const overlay = document.getElementById('winOverlay');
+
+    overlay?.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            overlay.classList.remove('active');
+        }
+    });
+
+    // botão CTA
+    document.getElementById('winCtaBtn')?.addEventListener('click', () => {
+        overlay.classList.remove('active');
+        triggerShowHiddenElements();
+
+        setTimeout(() => {
+            document.getElementById('kits')?.scrollIntoView({ behavior: 'smooth' });
+        }, 300);
+    });
+
+})();
+</script>
 </body>
 </html>
