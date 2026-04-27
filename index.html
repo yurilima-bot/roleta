@@ -208,46 +208,49 @@
             width: 100%;
             max-width: 920px;
             margin: 0 auto;
-            background: linear-gradient(180deg, #0f1923 0%, #0a1628 100%);
-            border-radius: 18px;
-            border: 1px solid rgba(30,58,138,0.18);
-            padding: 34px 18px 28px;
+            background: radial-gradient(circle at top, rgba(255, 223, 93, 0.18), rgba(15, 23, 42, 0.98));
+            border-radius: 24px;
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            padding: 36px 18px 28px;
             text-align: center;
             position: relative;
             overflow: hidden;
             box-shadow:
-                0 0 0 1px rgba(255,255,255,0.04),
-                0 30px 90px -35px rgba(0,0,0,0.45);
+                0 0 0 1px rgba(255,255,255,0.05),
+                0 32px 100px -35px rgba(0,0,0,0.45),
+                inset 0 0 120px rgba(249, 115, 22, 0.12);
         }
 
         .roulette-section::before {
             content: '';
             position: absolute;
-            top: -160px;
+            top: -140px;
             left: 50%;
             transform: translateX(-50%);
-            width: 620px;
-            height: 620px;
-            background: radial-gradient(circle, rgba(37,99,235,0.20) 0%, transparent 70%);
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(250, 204, 21, 0.25) 0%, transparent 72%);
             pointer-events: none;
+            filter: blur(10px);
         }
 
         .roulette-headline {
             font-family: 'Inter', sans-serif;
             font-weight: 900;
-            font-size: clamp(20px, 4vw, 32px);
-            color: #ffffff;
+            font-size: clamp(20px, 4vw, 34px);
+            color: #fff;
             line-height: 1.15;
             margin-bottom: 8px;
             letter-spacing: -0.2px;
+            text-shadow: 0 0 16px rgba(250, 204, 21, 0.25);
         }
 
-        .roulette-headline span { color: #facc15; }
+        .roulette-headline span { color: #fde68a; }
 
         .roulette-subtext {
             font-family: 'Inter', sans-serif;
             font-size: 14px;
-            color: #94a3b8;
+            color: #e5e7eb;
             margin-bottom: 22px;
         }
 
@@ -255,9 +258,9 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: rgba(239,68,68,0.15);
-            border: 1px solid rgba(239,68,68,0.4);
-            color: #f87171;
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            color: #f9c94d;
             font-family: 'Inter', sans-serif;
             font-size: 13px;
             font-weight: 800;
@@ -276,29 +279,42 @@
         .wheel-wrapper {
             position: relative;
             width: min(420px, 92vw);
-    height: min(420px, 92vw);
+            height: min(420px, 92vw);
             margin: 0 auto 18px;
+        }
+
+        .wheel-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -16px;
+            border-radius: 50%;
+            border: 8px solid rgba(250, 204, 21, 0.55);
+            background: radial-gradient(circle, transparent 65%, rgba(255,255,255,0.08) 100%);
+            box-shadow: 0 0 80px rgba(250, 204, 21, 0.28);
+            pointer-events: none;
         }
 
         .wheel-pointer {
             position: absolute;
-            top: -18px;
+            top: -22px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 10;
-            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+            filter: drop-shadow(0 4px 18px rgba(250, 204, 21, 0.55));
         }
 
-        .wheel-pointer svg { width: 36px; height: 36px; }
+        .wheel-pointer svg { width: 44px; height: 44px; }
 
         canvas#rouletteCanvas {
             display: block;
             width: 100%;
             height: 100%;
             border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
             box-shadow:
-                0 0 0 6px rgba(255,255,255,0.08),
-                0 0 40px rgba(37,99,235,0.25),
+                0 0 0 8px rgba(250, 204, 21, 0.18),
+                0 0 0 12px rgba(255,255,255,0.06),
+                0 0 44px rgba(245,158,11,0.35),
                 0 8px 40px rgba(0,0,0,0.55);
         }
 
@@ -308,12 +324,12 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 10;
-            width: 72px;
-            height: 72px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #facc15, #f59e0b);
-            border: 4px solid #fff;
-            box-shadow: 0 4px 20px rgba(245,158,11,0.55), 0 0 0 2px rgba(245,158,11,0.3);
+            background: linear-gradient(135deg, #fde68a, #f59e0b);
+            border: 3px solid rgba(255,255,255,0.9);
+            box-shadow: 0 10px 30px rgba(245,158,11,0.45), 0 0 0 4px rgba(245,158,11,0.18);
             cursor: pointer;
             font-family: 'Bebas Neue', cursive;
             font-size: 16px;
@@ -341,20 +357,62 @@
             gap: 10px;
             padding: 14px 40px;
             border-radius: 999px;
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            color: #fff;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #111827;
             font-family: 'Inter', sans-serif;
             font-size: 16px;
             font-weight: 900;
             cursor: pointer;
-            box-shadow: 0 4px 24px rgba(37,99,235,0.45);
+            box-shadow: 0 0 25px rgba(34,197,94,0.6), 0 10px 30px rgba(0,0,0,0.5);
             transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
             letter-spacing: 0.2px;
         }
 
+       .roulette-result-message {
+    margin: 22px auto 0;
+    max-width: 520px;
+
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.6;
+
+    color: #052e16;
+
+    background: linear-gradient(135deg, #bbf7d0, #86efac);
+    border: 2px solid #22c55e;
+
+    padding: 16px 18px;
+    border-radius: 14px;
+
+    text-align: center;
+
+    box-shadow:
+        0 10px 40px rgba(34,197,94,0.35),
+        inset 0 0 18px rgba(255,255,255,0.25);
+
+    /* 🔥 COMEÇA ESCONDIDO DE VERDADE */
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    pointer-events: none;
+
+    transition: all 0.4s ease;
+}
+
+/* 🔥 estado visível */
+.roulette-result-message.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+@keyframes result-pop {
+    0% { transform: scale(0.7); opacity: 0; }
+    60% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
         .spin-btn:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 10px 34px rgba(37,99,235,0.65);
+            box-shadow: 0 12px 40px rgba(245,158,11,0.55);
         }
 
         .spin-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
@@ -1210,6 +1268,8 @@
                     <span aria-hidden="true">🎡</span>
                     Gire a Roleta
                 </button>
+
+                <p class="roulette-result-message esconder" id="rouletteResultMessage" aria-live="polite"></p>
             </div>
         </div>
     </section>
@@ -1376,12 +1436,12 @@
     // ─────────────────────────────────────────
     // SEGMENTS
     // ─────────────────────────────────────────
-    const SEGMENTS = [
-        { label: '5% OFF\nno kit de 9', color: '#1e3a8a', textColor: '#fff' },
-        { label: '+1 SACHÊ\nTODOS OS KITS', color: '#facc15', textColor: '#0a1628' },
-        { label: '5% OFF\nno kit de 4', color: '#2563eb', textColor: '#fff' },
-        { label: 'FRETE Grátis\nno kit de 1', color: '#1d4ed8', textColor: '#fff' },
-    ];
+  const SEGMENTS = [
+    { label: '5% OFF\nNO KIT 9', color: '#ef4444', textColor: '#fff' },   // 🔴 vermelho urgência
+    { label: '+1 SACHÊ\nGRÁTIS', color: '#22c55e', textColor: '#022c22' }, // 🟢 verde recompensa (GANHOU)
+    { label: '5% OFF\nNO KIT 4', color: '#3b82f6', textColor: '#fff' },   // 🔵 azul confiança
+    { label: 'FRETE\nGRÁTIS', color: '#facc15', textColor: '#111827' },   // 🟡 amarelo destaque
+];
 
     const WINNER_INDEX = 1;
 
@@ -1414,21 +1474,124 @@
             ctx.fillStyle = seg.color;
             ctx.fill();
 
+            ctx.shadowColor = seg.color;
+ctx.shadowBlur = 25;
+ctx.fill();
+
+// reset shadow
+ctx.shadowBlur = 0;
+
+            ctx.lineWidth = 6;
+            ctx.strokeStyle = 'rgba(255,255,255,0.32)';
+            ctx.stroke();
+
             ctx.save();
             ctx.translate(cx, cy);
             ctx.rotate(start + ARC / 2);
 
-            ctx.fillStyle = seg.textColor;
-            ctx.font = `bold ${canvas.width * 0.045}px Inter`;
-            ctx.textAlign = 'center';
+   const lines = seg.label.split('\n');
 
-            const lines = seg.label.split('\n');
-            lines.forEach((line, index) => {
-                ctx.fillText(line, R * 0.6, index * 18);
-            });
+const baseSize = canvas.width * 0.05;
+const textRadius = R * 0.62;
+
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+
+// 🔹 DEFINE cor automática (resolve problema do amarelo)
+const isLightBg = seg.color === '#facc15';
+
+// 🔹 LINHA DE CIMA (contexto)
+if (lines[0]) {
+    ctx.fillStyle = isLightBg 
+        ? 'rgba(0,0,0,0.65)' 
+        : 'rgba(255,255,255,0.75)';
+
+    ctx.font = `600 ${baseSize * 0.7}px Outfit`;
+    
+    ctx.fillText(lines[0], textRadius, -baseSize * 0.45);
+}
+
+// 🔹 LINHA PRINCIPAL (O QUE VENDE)
+if (lines[1]) {
+    ctx.fillStyle = seg.textColor;
+
+    ctx.font = `900 ${baseSize * 1.25}px Bebas Neue`;
+
+    // sombra mais profissional
+    ctx.shadowColor = isLightBg 
+        ? 'rgba(0,0,0,0.25)' 
+        : 'rgba(0,0,0,0.6)';
+    ctx.shadowBlur = 8;
+    ctx.shadowOffsetY = 2;
+
+    ctx.fillText(lines[1], textRadius, baseSize * 0.7);
+
+    // stroke leve (efeito premium)
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = isLightBg 
+        ? 'rgba(0,0,0,0.15)' 
+        : 'rgba(255,255,255,0.2)';
+    ctx.strokeText(lines[1], textRadius, baseSize * 0.7);
+
+    // reset
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetY = 0;
+}
 
             ctx.restore();
         });
+
+        // divisórias do cassino
+        for (let i = 0; i < NUM; i++) {
+            const angle = rotation + i * ARC;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(cx + Math.cos(angle) * R, cy + Math.sin(angle) * R);
+            ctx.strokeStyle = 'rgba(255,255,255,0.32)';
+            ctx.lineWidth = 6;
+            ctx.stroke();
+        }
+
+       // ═══════════════════════════════
+// BORDA EXTERNA - EFEITO CASINO PREMIUM
+// ═══════════════════════════════
+
+// Base glow (luz difusa)
+ctx.beginPath();
+ctx.arc(cx, cy, R - 6, 0, 2 * Math.PI);
+ctx.strokeStyle = 'rgba(250, 204, 21, 0.25)';
+ctx.lineWidth = 22;
+ctx.shadowColor = '#facc15';
+ctx.shadowBlur = 40;
+ctx.stroke();
+
+// Anel principal (ouro forte)
+ctx.beginPath();
+ctx.arc(cx, cy, R - 6, 0, 2 * Math.PI);
+ctx.strokeStyle = '#fde047';
+ctx.lineWidth = 10;
+ctx.shadowColor = '#fde047';
+ctx.shadowBlur = 20;
+ctx.stroke();
+
+// Linha interna (acabamento fino)
+ctx.beginPath();
+ctx.arc(cx, cy, R - 14, 0, 2 * Math.PI);
+ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+ctx.lineWidth = 2;
+ctx.stroke();
+
+// reset sombra
+ctx.shadowBlur = 0;
+
+        // centro do disco
+        ctx.beginPath();
+        ctx.arc(cx, cy, R * 0.16, 0, 2 * Math.PI);
+        ctx.fillStyle = 'rgba(250, 204, 21, 0.85)';
+        ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+        ctx.stroke();
     }
 
     drawWheel(currentAngle);
@@ -1473,29 +1636,83 @@
     // FINAL
     // ─────────────────────────────────────────
     function onSpinEnd() {
+    setTimeout(() => {
+
+        // 🔥 mostra os kits direto (SEM POPUP)
+        triggerShowHiddenElements();
+
+        // 🔥 inicia timer direto na página
+        startWinTimerInline();
+
+        // 🔥 efeito dopamina (confete)
+        launchConfetti();
+
+        // 🔥 feedback visual no botão
+        const btn = document.getElementById('centerSpinBtn');
+        if (btn) {
+            btn.innerHTML = 'GANHOU 🎉';
+            btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
+        }
+
+   const resultMessage = document.getElementById('rouletteResultMessage');
+
+if (resultMessage) {
+    resultMessage.innerHTML = '🎉 Parabéns! Você ganhou <b>+1 Sachê Grátis</b>\n<br> Essa oferta é válida para todos os kits!';
+
+    resultMessage.classList.remove('esconder');
+    resultMessage.style.display = 'block';
+    resultMessage.classList.add('show');
+}
+
+        // 🔥 scroll automático (leve)
         setTimeout(() => {
-            document.getElementById('winOverlay')?.classList.add('active');
-            triggerShowHiddenElements();
-            startWinTimer();
-        }, 500);
+            document.getElementById('kits')?.scrollIntoView({ behavior: 'smooth' });
+        }, 800);
+
+    }, 400);
+}
+
+    function launchConfetti() {
+        // Fallback confetti effect: nada se faltar biblioteca externa.
+        // Mantemos o fluxo do script e exibimos a mensagem normalmente.
     }
 
     // ─────────────────────────────────────────
     // TIMER
     // ─────────────────────────────────────────
-    function startWinTimer() {
-        let time = 900;
-        const el = document.getElementById('winTimer');
+  function startWinTimerInline() {
+    let time = 900;
 
-        const interval = setInterval(() => {
-            const m = Math.floor(time / 60);
-            const s = time % 60;
+    let timerEl = document.getElementById('inlineTimer');
 
-            el.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    if (!timerEl) {
+        timerEl = document.createElement('div');
+        timerEl.id = 'inlineTimer';
 
-            if (time-- <= 0) clearInterval(interval);
-        }, 1000);
+        timerEl.style.position = 'fixed';
+        timerEl.style.top = '16px';
+        timerEl.style.right = '16px';
+        timerEl.style.background = 'linear-gradient(135deg,#ef4444,#dc2626)';
+        timerEl.style.color = '#fff';
+        timerEl.style.padding = '10px 18px';
+        timerEl.style.borderRadius = '12px';
+        timerEl.style.fontFamily = 'Bebas Neue';
+        timerEl.style.fontSize = '24px';
+        timerEl.style.zIndex = '9999';
+        timerEl.style.boxShadow = '0 10px 40px rgba(0,0,0,0.5)';
+
+        document.body.appendChild(timerEl);
     }
+
+    const interval = setInterval(() => {
+        const m = Math.floor(time / 60);
+        const s = time % 60;
+
+        timerEl.textContent = `⏳ ${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+
+        if (time-- <= 0) clearInterval(interval);
+    }, 1000);
+}
 
     // ─────────────────────────────────────────
     // BOTÕES
