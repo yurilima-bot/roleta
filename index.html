@@ -1368,8 +1368,7 @@
             if (!canvas || !ctx) return;
 
             function setCanvasSize() {
-                const size = Math.min(340, window.innerWidth * 0.86);
-                canvas.width = size;
+const size = Math.min(420, window.innerWidth * 0.95);                canvas.width = size;
                 canvas.height = size;
             }
             setCanvasSize();
@@ -1415,15 +1414,15 @@
                     ctx.textBaseline = 'middle';
 
                     const lines = seg.label.split('\n');
-const fontSize = Math.max(10, canvas.width * 0.035);
-const textR = R * 0.68;                    if (lines.length === 2) {
+const fontSize = Math.max(12, canvas.width * 0.045);
+const textR = R * 0.72;                   if (lines.length === 2) {
     ctx.fillStyle = seg.subTextColor || seg.textColor;
-    ctx.font = `700 ${fontSize * 0.75}px Inter, sans-serif`;
-    ctx.fillText(lines[0], textR, -fontSize * 0.25);
+    ctx.font = `700 ${fontSize * 0.85}px Inter, sans-serif`;
+    ctx.fillText(lines[0], textR, -fontSize * 0.30);
 
     ctx.fillStyle = seg.textColor;
-    ctx.font = `900 ${fontSize * 0.95}px Bebas Neue, Inter, sans-serif`;
-    ctx.fillText(lines[1], textR, fontSize * 0.65);
+    ctx.font = `900 ${fontSize * 1.1}px Bebas Neue, Inter, sans-serif`;
+    ctx.fillText(lines[1], textR, fontSize * 0.75);
 } else {
                         ctx.fillStyle = seg.textColor;
                         ctx.font = `900 ${fontSize}px Inter, sans-serif`;
